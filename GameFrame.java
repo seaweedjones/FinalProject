@@ -335,41 +335,11 @@ g.drawImage(nyet, 57,310,this);
        
     }
   }
-  }
-}
-
-
-    
+     //note - would be better to make player class and pass in map, test movement in there
+  }  
   
- 
-  
-
-  
-  // -----------  Inner class for the keyboard listener - this detects key presses and runs the corresponding code
-  /*
-    private class MyKeyListener implements KeyListener {
-  
-      public void keyTyped(KeyEvent e) {  
-      }
-
-      public void keyPressed(KeyEvent e) {
-        //System.out.println("keyPressed="+KeyEvent.getKeyText(e.getKeyCode()));
-       
-        if (KeyEvent.getKeyText(e.getKeyCode()).equals("D")) {  //If 'D' is pressed
-          System.out.println("YIKES D KEY!");
-        } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {  //If ESC is pressed
-          System.out.println("YIKES ESCAPE KEY!"); //close frame & quit
-        } 
-      }   
-      
-      public void keyReleased(KeyEvent e) {
-      }
-    } //end of keyboard listener
-  
-  // -----------  Inner class for the keyboard listener - This detects mouse movement & clicks and runs the corresponding methods 
-    private class MyMouseListener implements MouseListener {
-   
-      public void mouseClicked(MouseEvent e) {
+  class ThaverListener implements MouseListener {
+    public void mouseClicked(MouseEvent e) {
         System.out.println("Mouse Clicked");
         System.out.println("X:"+e.getX() + " y:"+e.getY());
       }
@@ -386,7 +356,21 @@ g.drawImage(nyet, 57,310,this);
       public void mouseExited(MouseEvent e) {
       }
     } //end of mouselistener
-    */
+}
+  
+ 
+    
+  
+ 
+  
+
+
+  
+      
     
 
   
+  
+    
+   
+     
