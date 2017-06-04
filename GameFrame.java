@@ -89,7 +89,9 @@ class GameFrame extends JFrame {
     //Start the game loop in a separate thread
     Thread t = new Thread(new Runnable() { public void run() { animate(); }}); //start the gameLoop 
     t.start();
-   
+     ThaverListener listener = new ThaverListener();
+    this.addMouseListener(listener);
+    this.requestFocusInWindow(true);
   } //End of Constructor
 
   //the main gameloop - this is where the game state is updated
@@ -115,20 +117,33 @@ class GameFrame extends JFrame {
        int x2=0;
        int boardXLength =8;
        int boardYLength = 8;
-       int [] []  boardPosition = new int [8][8];
+       int []   boardXPosition = new int [8];
+       int[] boardYPosition = new int [8];
+       
        String [] [] textPosition = new String  [8][8];
         for ( int row = 0;  row < 8;  row++ ) {
           
              for (int col = 0;  col < 8;  col++) {
-                x = col * 50;
-                y = row * 50;
+                boardXPosition[row] = row * 50;
+                    //System.out.println("Yes is" + boardXPosition[row]);
+                boardYPosition[col] = col * 50;
+                x = col*50;
+                y= row *50;
                 if ( (row % 2) == (col % 2) )
+            
                    g.setColor(Color.white);
-                else
+                   else 
                    g.setColor(Color.blue);
-                g.fillRect((int)x, (int)y, 50, 50);
+                g.fillRect((int)x,(int)y, 50, 50);
+                   
+             }
+            
+        }   
+                          
+             
+             
+       
            
-               
        /*
          for (int rows =0;rows<8;rows++  ){
          for(int cols =0;cols<8;cols++){
@@ -174,9 +189,11 @@ class GameFrame extends JFrame {
         
      } catch(Exception e) { System.out.println("error loading sprite");}; 
      int starter = 7;
+        g.setColor(Color.red);
+                g.fillRect(boardXPosition[0],boardYPosition[1], 50, 50);
      for (int counter =0; counter <8;counter++)
      {
-       g.drawImage (blackPawns[counter],PieceYPos[counter],50,this);
+       g.drawImage (blackPawns[counter],boardXPosition[counter],50,this);
        
        /*
      g.drawImage(img, 7,50,this);
@@ -205,7 +222,7 @@ g.drawImage(img, 57,50,this);
      
      for (int counter =0; counter <8;counter++)
      {
-       g.drawImage (whitePawns[counter],PieceYPos[counter],310,this);
+       g.drawImage (whitePawns[counter],boardXPosition[counter],310,this);
      }
        
      /*
@@ -257,10 +274,9 @@ g.drawImage(nyet, 57,310,this);
                   whiterooks [1] = ImageIO.read(new File ("whiterooks.png"));
     } catch(Exception e) { System.out.println("error loading sprite");}; 
     
-     g.drawImage(whiterooks [0], 7,360,this);
-   
-   
-    g.drawImage(whiterooks [1], 357,360,this);
+     g.drawImage(whiterooks [0], boardXPosition[0],360,this);
+
+    g.drawImage(whiterooks [1],boardXPosition[7] ,360,this);
    
     
       
@@ -335,8 +351,9 @@ g.drawImage(nyet, 57,310,this);
        
     }
   }
+
      //note - would be better to make player class and pass in map, test movement in there
-  }  
+  
   
   class ThaverListener implements MouseListener {
     public void mouseClicked(MouseEvent e) {
@@ -355,22 +372,8 @@ g.drawImage(nyet, 57,310,this);
 
       public void mouseExited(MouseEvent e) {
       }
-    } //end of mouselistener
-}
-  
- 
-    
-  
- 
-  
+  }
+    //end of mouselistener
 
-
-  
-      
-    
-
-  
-  
-    
    
      
