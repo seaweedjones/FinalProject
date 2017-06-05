@@ -59,6 +59,14 @@ class GameFrame extends JFrame {
    num = alph[x_pos] + y_pos;
    return num;
   }
+  public static String check_piece (int x, int y, String pieceXPosition[], String pieceYPosition[]){
+       // String x_pos[] = a[];
+       // String y_pos[] = b[];
+     if(pieceXPosition[y].equals(pieceYPosition[x])){
+      return pieceYPosition[y]; 
+     }
+    return null;
+  }
   
   //class variable (non-static)
    static double x, y;
@@ -117,8 +125,13 @@ class GameFrame extends JFrame {
        int x2=0;
        int boardXLength =8;
        int boardYLength = 8;
+       //Co-ordinate system
        int []   boardXPosition = new int [8];
        int[] boardYPosition = new int [8];
+       
+          //Piece identification system
+            String[] pieceXPosition = new String[8]; 
+            String[] pieceYPosition = new String[8];
        
        String [] [] textPosition = new String  [8][8];
         for ( int row = 0;  row < 8;  row++ ) {
@@ -193,6 +206,8 @@ class GameFrame extends JFrame {
      for (int counter =0; counter <8;counter++)
      {
        g.drawImage (blackPawns[counter],boardXPosition[counter],boardYPosition[1],this);
+        pieceXPosition [counter] = "p";
+              pieceYPosition [counter] = "p";     
        
        /*
      g.drawImage(img, 7,50,this);
@@ -222,6 +237,8 @@ g.drawImage(img, 57,50,this);
      for (int counter =0; counter <8;counter++)
      {
        g.drawImage (whitePawns[counter],boardXPosition[counter],boardYPosition[6],this);
+          pieceXPosition [counter] = "p";
+              pieceYPosition [counter] = "p"; 
      }
        
      /*
@@ -244,6 +261,8 @@ g.drawImage(nyet, 57,310,this);
      
    {
      g.drawImage (bishopsBlack[bishopsCounter],boardXPosition[bishopsCount],boardYPosition[0],this);
+     pieceXPosition [bishopsCounter] = "b";
+              pieceYPosition [bishopsCounter] = "b"; 
      
    }
    g.setColor(Color.red);
@@ -269,6 +288,8 @@ g.drawImage(nyet, 57,310,this);
      
    {
      g.drawImage (whitebishops[bishopsCountere],boardXPosition[bishopsCounte],boardYPosition[7],this);
+          pieceXPosition [bishopsCounte] = "b";
+              pieceYPosition [bishopsCounte] = "b"; 
      
    }
    
@@ -385,4 +406,3 @@ g.drawImage(nyet, 57,310,this);
     //end of mouselistener
 
    
-     
