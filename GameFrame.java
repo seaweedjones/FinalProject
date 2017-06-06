@@ -59,6 +59,14 @@ class GameFrame extends JFrame {
    num = alph[x_pos] + y_pos;
    return num;
   }
+  public static String check_piece (int x, int y, String pieceXPosition[], String pieceYPosition[]){
+       // String x_pos[] = a[];
+       // String y_pos[] = b[];
+     if(pieceXPosition[y].equals(pieceYPosition[x])){
+      return pieceYPosition[y]; 
+     }
+    return null;
+  }
   
   //class variable (non-static)
    static double x, y;
@@ -89,7 +97,9 @@ class GameFrame extends JFrame {
     //Start the game loop in a separate thread
     Thread t = new Thread(new Runnable() { public void run() { animate(); }}); //start the gameLoop 
     t.start();
-   
+     ThaverListener listener = new ThaverListener();
+    this.addMouseListener(listener);
+    this.requestFocusInWindow(true);
   } //End of Constructor
 
   //the main gameloop - this is where the game state is updated
@@ -115,20 +125,38 @@ class GameFrame extends JFrame {
        int x2=0;
        int boardXLength =8;
        int boardYLength = 8;
-       int [] []  boardPosition = new int [8][8];
+       //Co-ordinate system
+       int []   boardXPosition = new int [8];
+       int[] boardYPosition = new int [8];
+       
+          //Piece identification system
+            String[] pieceXPosition = new String[8]; 
+            String[] pieceYPosition = new String[8];
+       
        String [] [] textPosition = new String  [8][8];
         for ( int row = 0;  row < 8;  row++ ) {
           
              for (int col = 0;  col < 8;  col++) {
-                x = col * 50;
-                y = row * 50;
+                boardXPosition[row] = row * 50;
+                    //System.out.println("Yes is" + boardXPosition[row]);
+                boardYPosition[col] = col * 50;
+                x = col*50;
+                y= row *50;
                 if ( (row % 2) == (col % 2) )
+            
                    g.setColor(Color.white);
-                else
+                   else 
                    g.setColor(Color.blue);
-                g.fillRect((int)x, (int)y, 50, 50);
+                g.fillRect((int)x,(int)y, 50, 50);
+                   
+             }
+            
+        }   
+                          
+             
+             
+       
            
-               
        /*
          for (int rows =0;rows<8;rows++  ){
          for(int cols =0;cols<8;cols++){
@@ -154,8 +182,8 @@ class GameFrame extends JFrame {
        BufferedImage []  whitebishops = new  BufferedImage [2];
        BufferedImage []  blackrooks = new  BufferedImage [2];
        BufferedImage []  whiterooks = new BufferedImage [2];
-       BufferedImage blackKnights = null;
-       BufferedImage whiteKnights = null;
+       BufferedImage []  blackKnights = new BufferedImage[2];
+       BufferedImage []  whiteKnights = new BufferedImage [2];
        BufferedImage whiteQueen = null;
        BufferedImage blackQueen = null;
        BufferedImage whiteKing = null;
@@ -173,205 +201,206 @@ class GameFrame extends JFrame {
 
         
      } catch(Exception e) { System.out.println("error loading sprite");}; 
-     int starter = 7;
+     
+     
      for (int counter =0; counter <8;counter++)
      {
-       g.drawImage (blackPawns[counter],PieceYPos[counter],50,this);
+       g.drawImage (blackPawns[counter],boardXPosition[counter],boardYPosition[1],this);
+       pieceXPosition [counter] = "P";
+       pieceYPosition [0] = "P";     
        
-       /*
-     g.drawImage(img, 7,50,this);
-g.drawImage(img, 57,50,this);
-    g.drawImage(img, 107,50,this);
-    g.drawImage(img, 157,50,this);
-    g.drawImage(img, 207,50,this);
-    g.drawImage(img, 257,50,this);
-    g.drawImage(img, 307,50,this);
-    g.drawImage(img, 357,50,this);
-    */
+       
      }
-
+     
      try {   
-         whitePawns [0] = ImageIO.read(new File("whitepawn.png"));
-        whitePawns [1] = ImageIO.read(new File("whitepawn.png"));
-        whitePawns [2] = ImageIO.read(new File("whitepawn.png"));
-        whitePawns [3] = ImageIO.read(new File("whitepawn.png"));
-        whitePawns [4] = ImageIO.read(new File("whitepawn.png"));
-        whitePawns [5] = ImageIO.read(new File("whitepawn.png"));
-        whitePawns [6] = ImageIO.read(new File("whitepawn.png"));
-        whitePawns [7] = ImageIO.read(new File("whitepawn.png"));
-
-
+       whitePawns [0] = ImageIO.read(new File("whitepawn.png"));
+       whitePawns [1] = ImageIO.read(new File("whitepawn.png"));
+       whitePawns [2] = ImageIO.read(new File("whitepawn.png"));
+       whitePawns [3] = ImageIO.read(new File("whitepawn.png"));
+       whitePawns [4] = ImageIO.read(new File("whitepawn.png"));
+       whitePawns [5] = ImageIO.read(new File("whitepawn.png"));
+       whitePawns [6] = ImageIO.read(new File("whitepawn.png"));
+       whitePawns [7] = ImageIO.read(new File("whitepawn.png"));
+       
+       
      } catch(Exception e) { System.out.println("error loading sprite");}; 
      
      for (int counter =0; counter <8;counter++)
      {
-       g.drawImage (whitePawns[counter],PieceYPos[counter],310,this);
+       g.drawImage (whitePawns[counter],boardXPosition[counter],boardYPosition[6],this);
+       pieceXPosition [counter] = "p";
+       pieceYPosition [7] = "p"; 
      }
-       
+     
      /*
-   g.drawImage(nyet, 7,310,this);
-g.drawImage(nyet, 57,310,this);
-    g.drawImage(nyet, 107,310,this);
-    g.drawImage(nyet, 157,310,this);
-    g.drawImage(nyet, 207,310,this);
-    g.drawImage(nyet, 257,310,this);
-    g.drawImage(nyet, 307,310,this);
-    g.drawImage(nyet, 357,310,this);
-        
-    */
-    try {
-     bishopsBlack[0] = ImageIO.read(new File ("blackbishops.png")); 
-      bishopsBlack[1] = ImageIO.read(new File ("blackbishops.png"));
-    } catch(Exception e) { System.out.println("error loading sprite");}; 
-    int bishopsCounter = 0;
-   for (int bishopsCount = 2;bishopsCount < 7;bishopsCount+=3)
-     
-   {
-     g.drawImage (bishopsBlack[bishopsCounter],PieceYPos[bishopsCount],0,this);
-     
-   }
-   
-    
+      g.drawImage(nyet, 7,310,this);
+      g.drawImage(nyet, 57,310,this);
+      g.drawImage(nyet, 107,310,this);
+      g.drawImage(nyet, 157,310,this);
+      g.drawImage(nyet, 207,310,this);
+      g.drawImage(nyet, 257,310,this);
+      g.drawImage(nyet, 307,310,this);
+      g.drawImage(nyet, 357,310,this);
       
-             try
-             {
-                  whitebishops [0] = ImageIO.read(new File ("whitebishops.png"));
-                  whitebishops [1] = ImageIO.read(new File ("whitebishops.png"));
-      
-    } catch(Exception e) { System.out.println("error loading sprite");}; 
-    
+      */
+     try {
+       bishopsBlack[0] = ImageIO.read(new File ("blackbishops.png")); 
+       bishopsBlack[1] = ImageIO.read(new File ("blackbishops.png"));
+     } catch(Exception e) { System.out.println("error loading sprite");}; 
+     int bishopsCounter = 0;
+     for (int bishopsCount = 2;bishopsCount < 7;bishopsCount+=3)
+       
+     {
+       g.drawImage (bishopsBlack[bishopsCounter],boardXPosition[bishopsCount],boardYPosition[0],this);
+       pieceXPosition [bishopsCounter] = "B";
+       pieceYPosition [0] = "B"; 
+       
+     }
+     g.setColor(Color.red);
+//   g.fillRect(boardXPosition[0],boardYPosition[0], 50, 50);
+//   g.fillRect(boardXPosition[1],boardYPosition[1], 50, 50);
+//   g.fillRect(boardXPosition[2],boardYPosition[2], 50, 50);
+//   g.fillRect(boardXPosition[3],boardYPosition[3], 50, 50);
+//   g.fillRect(boardXPosition[4],boardYPosition[4], 50, 50);
+//   g.fillRect(boardXPosition[5],boardYPosition[5], 50, 50);
+//   g.fillRect(boardXPosition[6],boardYPosition[6], 50, 50);
+//   g.fillRect(boardXPosition[7],boardYPosition[7], 50, 50);
+     
+     
+     try
+     {
+       whitebishops [0] = ImageIO.read(new File ("whitebishops.png"));
+       whitebishops [1] = ImageIO.read(new File ("whitebishops.png"));
+       
+     } catch(Exception e) { System.out.println("error loading sprite");}; 
+     
      int bishopsCountere = 0;
-   for (int bishopsCounte = 2;bishopsCounte < 7;bishopsCounte+=3)
+     for (int bishopsCounte = 2;bishopsCounte < 7;bishopsCounte+=3)
+       
+     {
+       g.drawImage (whitebishops[bishopsCountere],boardXPosition[bishopsCounte],boardYPosition[7],this);
+       pieceXPosition [bishopsCounte] = "b";
+       pieceYPosition [7] = "b"; 
+       
+     }
      
-   {
-     g.drawImage (whitebishops[bishopsCountere],PieceYPos[bishopsCounte],360,this);
      
-   }
-   
-    
-      
-             
-              try
-             {
-                  whiterooks [0] = ImageIO.read(new File ("whiterooks.png")); 
-                  whiterooks [1] = ImageIO.read(new File ("whiterooks.png"));
-    } catch(Exception e) { System.out.println("error loading sprite");}; 
-    
-     g.drawImage(whiterooks [0], 7,360,this);
-   
-   
-    g.drawImage(whiterooks [1], 357,360,this);
-   
-    
-      
-                try
-             {
-                  whiteKnights = ImageIO.read(new File ("whiteknights.png")); 
-      
-    } catch(Exception e) { System.out.println("error loading sprite");}; 
-    
-     g.drawImage(whiteKnights, 57,360,this);
-   
-   
-    g.drawImage(whiteKnights, 307,360,this);
-   
-    
-      
-   
-              try
-             {
-                  whiteQueen = ImageIO.read(new File ("whitequeen.png")); 
-      
-    } catch(Exception e) { System.out.println("error loading sprite");}; 
-    
-     g.drawImage(whiteQueen, 157,360,this);
-   
+     
+     
      try
-             {
-                  whiteKing = ImageIO.read(new File ("whiteking.png")); 
-      
-    } catch(Exception e) { System.out.println("error loading sprite");}; 
-    
-     g.drawImage(whiteKing, 207,360,this);
-   
-    
-   
-         try
-             {
-                  blackKing = ImageIO.read(new File ("blackking.png")); 
-      
-    } catch(Exception e) { System.out.println("error loading sprite");}; 
-    
-     g.drawImage(blackKing, 207,0,this);
-   
-      
+     {
+       whiterooks [0] = ImageIO.read(new File ("whiterooks.png")); 
+       whiterooks [1] = ImageIO.read(new File ("whiterooks.png"));
+     } catch(Exception e) { System.out.println("error loading sprite");}; 
+     
+     g.drawImage(whiterooks [0], boardXPosition[0],boardYPosition[7],this);
+     pieceXPosition [0] = "r";
+     pieceYPosition[7] = "r";
+     g.drawImage(whiterooks [1],boardXPosition[7] ,boardYPosition[7],this);
+     pieceXPosition [7] = "r";
+     pieceYPosition[7] = "r";
+     
+     
      try
-             {
-                  blackQueen = ImageIO.read(new File ("blackqueen.png")); 
-      
-    } catch(Exception e) { System.out.println("error loading sprite");}; 
-    
-     g.drawImage(blackQueen, 157,0,this);
+     {
+       whiteKnights[0] = ImageIO.read(new File ("whiteknights.png"));
+       whiteKnights[1] = ImageIO.read(new File ("whiteknights.png"));
+       
+     } catch(Exception e) { System.out.println("error loading sprite");}; 
+     
+     g.drawImage(whiteKnights[0], boardXPosition[1],boardYPosition[7],this);
+     pieceXPosition[1] = "n";
+     pieceYPosition[7]="n";
+     
+     g.drawImage(whiteKnights[1], boardXPosition[6],boardYPosition[7],this);
+     pieceXPosition[6] = "n";
+     pieceYPosition[7]="n";
+     
+     
+     
+     
+     try
+     {
+       whiteQueen = ImageIO.read(new File ("whitequeen.png")); 
+       
+     } catch(Exception e) { System.out.println("error loading sprite");}; 
+     
+     g.drawImage(whiteQueen, boardXPosition[3],boardYPosition[7],this);
+     pieceXPosition[3] = "q";
+     pieceYPosition[7] = "q";
+     try
+     {
+       whiteKing = ImageIO.read(new File ("whiteking.png")); 
+       
+     } catch(Exception e) { System.out.println("error loading sprite");}; 
+     
+     g.drawImage(whiteKing, boardXPosition[4],boardYPosition[7],this);
+     pieceXPosition[4] = "k";
+     pieceYPosition[7] = "k";
+     
+     
+     
+     try
+     {
+       blackKing = ImageIO.read(new File ("blackking.png")); 
+       
+     } catch(Exception e) { System.out.println("error loading sprite");}; 
+     
+     g.drawImage(blackKing, boardXPosition[4],boardYPosition[0],this);
+     pieceXPosition[4] = "K";
+     pieceYPosition[0] = "K";
+     
+     
+     
+     try
+     {
+       blackQueen = ImageIO.read(new File ("blackqueen.png")); 
+       
+     } catch(Exception e) { System.out.println("error loading sprite");}; 
+     
+     g.drawImage(blackQueen, boardXPosition[3],boardYPosition[0],this);
+     pieceXPosition[4] = "Q";
+     pieceYPosition[0] = "Q";
      
       try
              {
                   blackrooks [0] = ImageIO.read(new File ("blackrooks.png")); 
                   blackrooks [1] = ImageIO.read(new File ("blackrooks.png"));
     } catch(Exception e) { System.out.println("error loading sprite");}; 
-     g.drawImage(blackrooks [0], 7,0,this);
-     g.drawImage(blackrooks [1], 357,0,this);
+     g.drawImage(blackrooks [0], boardXPosition[0],boardYPosition[0],this);
+      pieceXPosition[0] = "R";
+     pieceYPosition[0] = "R";
+     g.drawImage(blackrooks [1], boardYPosition[7],boardYPosition[0],this);
+      pieceXPosition[7] = "R'";
+     pieceYPosition[0] = "R";
      
      
         try
              {
-                  blackKnights = ImageIO.read(new File ("blackknights.png")); 
-      
+                  blackKnights[0] = ImageIO.read(new File ("blackknights.png")); 
+                   pieceXPosition[6] = "R'";
+     pieceYPosition[0] = "R";
+                    blackKnights[1] = ImageIO.read(new File ("blackknights.png")); 
+       pieceXPosition[1] = "R'";
+     pieceYPosition[0] = "R";
     } catch(Exception e) { System.out.println("error loading sprite");}; 
-     g.drawImage(blackKnights, 57,0,this);
-     g.drawImage(blackKnights, 307,0,this);
+     g.drawImage(blackKnights[0], boardXPosition[1],boardYPosition[0],this);
+     g.drawImage(blackKnights[1], boardXPosition[6],boardYPosition[0],this);
             setDoubleBuffered(true); 
       }
 
        
     }
   }
-  }
-}
 
-
-    
+     //note - would be better to make player class and pass in map, test movement in there
   
- 
   
-
-  
-  // -----------  Inner class for the keyboard listener - this detects key presses and runs the corresponding code
-  /*
-    private class MyKeyListener implements KeyListener {
-  
-      public void keyTyped(KeyEvent e) {  
-      }
-
-      public void keyPressed(KeyEvent e) {
-        //System.out.println("keyPressed="+KeyEvent.getKeyText(e.getKeyCode()));
-       
-        if (KeyEvent.getKeyText(e.getKeyCode()).equals("D")) {  //If 'D' is pressed
-          System.out.println("YIKES D KEY!");
-        } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {  //If ESC is pressed
-          System.out.println("YIKES ESCAPE KEY!"); //close frame & quit
-        } 
-      }   
-      
-      public void keyReleased(KeyEvent e) {
-      }
-    } //end of keyboard listener
-  
-  // -----------  Inner class for the keyboard listener - This detects mouse movement & clicks and runs the corresponding methods 
-    private class MyMouseListener implements MouseListener {
-   
-      public void mouseClicked(MouseEvent e) {
+  class ThaverListener implements MouseListener {
+    public void mouseClicked(MouseEvent e) {
         System.out.println("Mouse Clicked");
         System.out.println("X:"+e.getX() + " y:"+e.getY());
+     
       }
 
       public void mousePressed(MouseEvent e) {
@@ -385,8 +414,7 @@ g.drawImage(nyet, 57,310,this);
 
       public void mouseExited(MouseEvent e) {
       }
-    } //end of mouselistener
-    */
-    
+  }
+    //end of mouselistener
 
-  
+   
