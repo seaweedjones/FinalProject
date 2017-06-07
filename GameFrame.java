@@ -31,7 +31,9 @@ class GameFrame extends JFrame {
   //Characteristics
   static int[][] coordinates = new int[8][8]; //(this might be redundant)
   static boolean[][] check_pos = new boolean[8][8]; //checks if a given piece is on a given coordinate (x,y) ((x&y {0..7}))
-  static String[][] piece_check = new String[8][8]; //contains name of piece on given coordinate (x,y)
+  public static String[][] piece_check = new String[8][8]; //contains name of piece on given coordinate (x,y)
+  public static String[] pieceXPosition = new String[8]; 
+  public static String[] pieceYPosition = new String[8];
   
   public void assign_char(int x_pos, int y_pos, boolean exist, String name){ //call when creating board
     if(exist==true){
@@ -60,12 +62,28 @@ class GameFrame extends JFrame {
    return num;
   }
   public static String check_piece (int x, int y, String pieceXPosition[], String pieceYPosition[]){
-       // String x_pos[] = a[];
-       // String y_pos[] = b[];
-     if(pieceXPosition[y].equals(pieceYPosition[x])){
-      return pieceYPosition[y]; 
-     }
-    return null;
+     
+    int xValue = 0;
+    int yValue = 0;
+    
+    
+    for (int i = 0; i < 8; i++){
+      if (x < (i*50 )/50){
+        xValue += i;
+      }
+    }
+    
+    for (int j = 0; j < 8; j++){
+      if (y < (j*50)/50){
+        yValue += j;
+      }
+    }
+  String piece = pieceXPosition[xValue] ;
+  
+    if(pieceXPosition[xValue].equals(pieceYPosition[yValue])){
+    return piece;
+    }
+    return "we're snaking suleiman";
   }
   
   //class variable (non-static)
@@ -129,11 +147,9 @@ class GameFrame extends JFrame {
        int []   boardXPosition = new int [8];
        int[] boardYPosition = new int [8];
        
-          //Piece identification system
-            String[] pieceXPosition = new String[8]; 
-            String[] pieceYPosition = new String[8];
+     
        
-       String [] [] textPosition = new String  [8][8];
+       
         for ( int row = 0;  row < 8;  row++ ) {
           
              for (int col = 0;  col < 8;  col++) {
@@ -144,7 +160,7 @@ class GameFrame extends JFrame {
                 y= row *50;
                 if ( (row % 2) == (col % 2) )
             
-                   g.setColor(Color.white);
+                   g.setColor(Color.green);
                    else 
                    g.setColor(Color.blue);
                 g.fillRect((int)x,(int)y, 50, 50);
@@ -294,11 +310,11 @@ class GameFrame extends JFrame {
      } catch(Exception e) { System.out.println("error loading sprite");}; 
      
      g.drawImage(whiterooks [0], boardXPosition[0],boardYPosition[7],this);
-     pieceXPosition [0] = "r";
-     pieceYPosition[7] = "r";
+     pieceXPosition [0] = "rook";
+     pieceYPosition[7] = "rook";
      g.drawImage(whiterooks [1],boardXPosition[7] ,boardYPosition[7],this);
-     pieceXPosition [7] = "r";
-     pieceYPosition[7] = "r";
+     pieceXPosition [7] = "rook";
+     pieceYPosition[7] = "rook";
      
      
      try
@@ -309,12 +325,12 @@ class GameFrame extends JFrame {
      } catch(Exception e) { System.out.println("error loading sprite");}; 
      
      g.drawImage(whiteKnights[0], boardXPosition[1],boardYPosition[7],this);
-     pieceXPosition[1] = "n";
-     pieceYPosition[7]="n";
+     pieceXPosition[1] = "knight";
+     pieceYPosition[7]="knight";
      
      g.drawImage(whiteKnights[1], boardXPosition[6],boardYPosition[7],this);
-     pieceXPosition[6] = "n";
-     pieceYPosition[7]="n";
+     pieceXPosition[6] = "knight";
+     pieceYPosition[7]="knight";
      
      
      
@@ -326,8 +342,8 @@ class GameFrame extends JFrame {
      } catch(Exception e) { System.out.println("error loading sprite");}; 
      
      g.drawImage(whiteQueen, boardXPosition[3],boardYPosition[7],this);
-     pieceXPosition[3] = "q";
-     pieceYPosition[7] = "q";
+     pieceXPosition[3] = "queen";
+     pieceYPosition[7] = "queen";
      try
      {
        whiteKing = ImageIO.read(new File ("whiteking.png")); 
@@ -335,8 +351,8 @@ class GameFrame extends JFrame {
      } catch(Exception e) { System.out.println("error loading sprite");}; 
      
      g.drawImage(whiteKing, boardXPosition[4],boardYPosition[7],this);
-     pieceXPosition[4] = "k";
-     pieceYPosition[7] = "k";
+     pieceXPosition[4] = "king";
+     pieceYPosition[7] = "king";
      
      
      
@@ -347,8 +363,8 @@ class GameFrame extends JFrame {
      } catch(Exception e) { System.out.println("error loading sprite");}; 
      
      g.drawImage(blackKing, boardXPosition[4],boardYPosition[0],this);
-     pieceXPosition[4] = "K";
-     pieceYPosition[0] = "K";
+     pieceXPosition[4] = "King";
+     pieceYPosition[0] = "King";
      
      
      
@@ -359,8 +375,8 @@ class GameFrame extends JFrame {
      } catch(Exception e) { System.out.println("error loading sprite");}; 
      
      g.drawImage(blackQueen, boardXPosition[3],boardYPosition[0],this);
-     pieceXPosition[4] = "Q";
-     pieceYPosition[0] = "Q";
+     pieceXPosition[4] = "Queen";
+     pieceYPosition[0] = "Queen";
      
       try
              {
@@ -368,18 +384,18 @@ class GameFrame extends JFrame {
                   blackrooks [1] = ImageIO.read(new File ("blackrooks.png"));
     } catch(Exception e) { System.out.println("error loading sprite");}; 
      g.drawImage(blackrooks [0], boardXPosition[0],boardYPosition[0],this);
-      pieceXPosition[0] = "R";
-     pieceYPosition[0] = "R";
+      pieceXPosition[0] = "Rook";
+     pieceYPosition[0] = "Rook";
      g.drawImage(blackrooks [1], boardYPosition[7],boardYPosition[0],this);
-      pieceXPosition[7] = "R'";
-     pieceYPosition[0] = "R";
+      pieceXPosition[7] = "Rook";
+     pieceYPosition[0] = "Rook";
      
      
         try
              {
                   blackKnights[0] = ImageIO.read(new File ("blackknights.png")); 
-                   pieceXPosition[6] = "R'";
-     pieceYPosition[0] = "R";
+                   pieceXPosition[6] = "K'";
+     pieceYPosition[0] = "K";
                     blackKnights[1] = ImageIO.read(new File ("blackknights.png")); 
        pieceXPosition[1] = "R'";
      pieceYPosition[0] = "R";
@@ -400,7 +416,7 @@ class GameFrame extends JFrame {
     public void mouseClicked(MouseEvent e) {
         System.out.println("Mouse Clicked");
         System.out.println("X:"+e.getX() + " y:"+e.getY());
-     
+    System.out.println(GameFrame.check_piece(e.getX(),e.getY(),GameFrame.pieceXPosition,GameFrame.pieceYPosition));
       }
 
       public void mousePressed(MouseEvent e) {
